@@ -13,6 +13,12 @@ namespace KeLi.HelloLinq2Db.SQLite
     {
         private static void Main()
         {
+            //var builder = new LinqToDbConnectionOptionsBuilder();
+
+            //builder.UseConnectionString("SQLite", @"Data Source=C:\Data\MyDatabase.db");
+
+            //var options = new LinqToDbConnectionOptions(builder);
+
             using (var context = new MyDatabaseDB())
             {
                 // Add data.
