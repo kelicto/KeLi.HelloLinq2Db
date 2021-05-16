@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModels\BaseRecord.cs" />
-    <Compile Include="Extensions\DbUtil.cs" />
+    <Compile Include="Utils\DbUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataModels\MyDatabase1.generated.cs">

@@ -3,7 +3,7 @@ using System.Linq;
 
 using DataModels;
 
-using KeLi.HelloLinq2Db.SQLite.Extensions;
+using KeLi.HelloLinq2Db.SQLite.Utils;
 
 namespace KeLi.HelloLinq2Db.SQLite
 {

@@ -8,7 +8,7 @@ using KeLi.HelloLinq2Db.SQLite.Properties;
 using LinqToDB;
 using LinqToDB.Configuration;
 
-namespace KeLi.HelloLinq2Db.SQLite.Extensions
+namespace KeLi.HelloLinq2Db.SQLite.Utils
 {
     public class DbUtil
     {
