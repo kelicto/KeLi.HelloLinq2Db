@@ -3,9 +3,7 @@ using System.Linq;
 
 using DataModels;
 
-using KeLi.HelloLinq2Db.SQLite.TableModels;
-
-using LinqToDB;
+using KeLi.HelloLinq2Db.SQLite.Extensions;
 
 namespace KeLi.HelloLinq2Db.SQLite
 {
@@ -13,68 +11,60 @@ namespace KeLi.HelloLinq2Db.SQLite
     {
         private static void Main()
         {
-            //var builder = new LinqToDbConnectionOptionsBuilder();
-
-            //builder.UseConnectionString("SQLite", @"Data Source=C:\Data\MyDatabase.db");
-
-            //var options = new LinqToDbConnectionOptions(builder);
-
-            using (var context = new MyDatabaseDB())
+            // Add data.
             {
-                // Add data.
-                {
-                    context.Insert(new Person { FirstName = "Tom", LastName = "Smith", MiddleName = "Haha" });
-                    context.Insert(new Person { FirstName = "Tony", LastName = "Miller", MiddleName = "Dodo" });
-                    context.Insert(new Person { FirstName = "Jack", LastName = "Johnson", MiddleName = "wawa" });
+                DbUtil.Insert(new Student { Name = "Tom" });
+                DbUtil.Insert(new Student { Name = "Jack" });
+                DbUtil.Insert(new Student { Name = "Tony" });
 
-                    Console.WriteLine("After Added data:");
+                Console.WriteLine("After Added data:");
 
-                    foreach (var item in context.People.ToList())
-                        Console.WriteLine(item.FirstName);
-                }
+                foreach (var item in DbUtil.QueryList(q => q.Students.ToList()))
+                    Console.WriteLine(item.Name);
+            }
 
-                Console.WriteLine();
+            Console.WriteLine();
 
-                // Delete data.
-                {
-                    var peroson = context.People.FirstOrDefault(f => f.FirstName.Contains("Tom"));
+            // Delete data.
+            {
+                var student = DbUtil.Query(q => q.Students.FirstOrDefault(f => f.Name.Contains("Tom")));
 
-                    context.Delete(peroson);
+                if (student != null)
+                    DbUtil.Delete(student);
 
-                    Console.WriteLine("After Deleted data:");
+                Console.WriteLine("After Deleted data:");
 
-                    foreach (var item in context.People.ToList())
-                        Console.WriteLine(item.FirstName);
-                }
+                foreach (var item in DbUtil.QueryList(q => q.Students.ToList()))
+                    Console.WriteLine(item.Name);
+            }
 
-                Console.WriteLine();
+            Console.WriteLine();
 
-                // Update data.
-                {
-                    var peroson = context.People.FirstOrDefault(w => w.FirstName.Contains("Jack"));
+            // Update data.
+            {
+                var student = DbUtil.Query(q => q.Students.FirstOrDefault(f => f.Name.Contains("Jack")));
 
-                    if (peroson != null)
-                        peroson.FirstName = "Alice";
+                if (student != null)
+                    student.Name = "Alice";
 
-                    context.Update(peroson);
+                DbUtil.Update(student);
 
-                    Console.WriteLine("After Updated data:");
+                Console.WriteLine("After Updated data:");
 
-                    foreach (var item in context.People.ToList())
-                        Console.WriteLine(item.FirstName);
-                }
+                foreach (var item in DbUtil.QueryList(q => q.Students.ToList()))
+                    Console.WriteLine(item.Name);
+            }
 
-                Console.WriteLine();
+            Console.WriteLine();
 
-                // Query data.
-                {
-                    var people = context.People.Where(w => w.FirstName.Contains("T"));
+            // Query data.
+            {
+                var students = DbUtil.QueryList(q => q.Students.Where(w => w.Name.Contains("T")).ToList());
 
-                    Console.WriteLine("Query data:");
+                Console.WriteLine("Query data:");
 
-                    foreach (var item in people)
-                        Console.WriteLine(item.FirstName);
-                }
+                foreach (var item in students)
+                    Console.WriteLine(item.Name);
             }
 
             Console.ReadKey();

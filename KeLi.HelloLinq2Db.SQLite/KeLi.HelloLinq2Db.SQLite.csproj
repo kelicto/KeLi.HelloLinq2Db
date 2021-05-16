@@ -52,18 +52,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\BaseRecord.cs" />
+    <Compile Include="Extensions\DbUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableModels\MyDatabase1.generated.cs">
+    <Compile Include="DataModels\MyDatabase1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MyDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="TableModels\Person.cs" />
-    <Compile Include="TableModels\TableExtensions.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Database\MyDatabase.db" />
     <None Include="LinqToDB.Templates\DataAnnotations.ttinclude" />
     <None Include="LinqToDB.Templates\DataModel.ttinclude" />
     <None Include="LinqToDB.Templates\EditableObject.ttinclude" />
@@ -84,7 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LinqToDB.Templates\CopyMe.SQLite.tt.txt" />
-    <Content Include="TableModels\MyDatabase.tt">
+    <Content Include="DataModels\MyDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MyDatabase1.generated.cs</LastGenOutput>
     </Content>
@@ -92,6 +98,13 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net451\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net451\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
