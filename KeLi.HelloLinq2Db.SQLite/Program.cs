@@ -27,10 +27,7 @@ namespace KeLi.HelloLinq2Db.SQLite
 
             // Delete data.
             {
-                var student = DbUtil.Query(q => q.Students.FirstOrDefault(f => f.Name.Contains("Tom")));
-
-                if (student != null)
-                    DbUtil.Delete(student);
+                DbUtil.Delete(q => q.Students.FirstOrDefault(f => f.Name.Contains("Tom")));
 
                 Console.WriteLine("After Deleted data:");
 
@@ -42,12 +39,7 @@ namespace KeLi.HelloLinq2Db.SQLite
 
             // Update data.
             {
-                var student = DbUtil.Query(q => q.Students.FirstOrDefault(f => f.Name.Contains("Jack")));
-
-                if (student != null)
-                    student.Name = "Alice";
-
-                DbUtil.Update(student);
+                DbUtil.Update(q => q.Students.FirstOrDefault(f => f.Name.Contains("Jack")), u => u.Name = "Alice");
 
                 Console.WriteLine("After Updated data:");
 

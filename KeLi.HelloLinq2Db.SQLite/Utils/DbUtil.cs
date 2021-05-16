@@ -23,26 +23,45 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
                 return connection.Insert(entity);
         }
 
-        public static int Update<T>(T entity) where T : class
+        public static int Delete<T>(Func<MyDatabaseDataConnection, T> func) where T : class
         {
-            if (entity is null)
-                throw new ArgumentNullException(nameof(entity));
+            if (func is null)
+                throw new ArgumentNullException(nameof(func));
 
             var options = GetOptions();
 
             using (var connection = new MyDatabaseDataConnection(options))
-                return connection.Update(entity);
+            {
+                var target = func.Invoke(connection);
+
+                if (target is null)
+                    return 0;
+
+                return connection.Delete(target);
+            }
         }
 
-        public static int Delete<T>(T entity) where T : class
+        public static int Update<T>(Func<MyDatabaseDataConnection, T> func, Action<T> action) where T : class
         {
-            if (entity is null)
-                throw new ArgumentNullException(nameof(entity));
+            if (func is null)
+                throw new ArgumentNullException(nameof(func));
+
+            if (action is null)
+                throw new ArgumentNullException(nameof(action));
 
             var options = GetOptions();
 
             using (var connection = new MyDatabaseDataConnection(options))
-                return connection.Delete(entity);
+            {
+                var target = func.Invoke(connection);
+
+                if (target is null)
+                    return 0;
+
+                action.Invoke(target);
+
+                return connection.Update(target);
+            }
         }
 
         public static T Query<T>(Func<MyDatabaseDataConnection, T> func) where T : class
