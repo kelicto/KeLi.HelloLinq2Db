@@ -12,6 +12,32 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
 {
     public class DbUtil
     {
+        public static int Write<T>(T entity, Action<T> updater, Func<MyDatabaseDataConnection, T> finder) where T : class
+        {
+            if (entity is null)
+                throw new ArgumentNullException(nameof(entity));
+
+            if (updater is null)
+                throw new ArgumentNullException(nameof(updater));
+
+            if (finder is null)
+                throw new ArgumentNullException(nameof(finder));
+
+            var options = GetOptions();
+
+            using (var connection = new MyDatabaseDataConnection(options))
+            {
+                var target = finder.Invoke(connection);
+
+                if (target is null)
+                    return connection.Insert(entity);
+
+                updater.Invoke(target);
+
+                return connection.Update(target);
+            }
+        }
+
         public static int Insert<T>(T entity, Func<MyDatabaseDataConnection, T> finder = null) where T : class
         {
             if (entity is null)
@@ -51,10 +77,13 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             }
         }
 
-        public static int Update<T>(Action<T> action, Func<MyDatabaseDataConnection, T> finder) where T : class
+        public static int Update<T>(Action<T> updater, Func<MyDatabaseDataConnection, T> finder) where T : class
         {
-            if (action is null)
-                throw new ArgumentNullException(nameof(action));
+            if (updater is null)
+                throw new ArgumentNullException(nameof(updater));
+
+            if (finder is null)
+                throw new ArgumentNullException(nameof(finder));
 
             var options = GetOptions();
 
@@ -65,7 +94,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
                 if (target is null)
                     return 0;
 
-                action.Invoke(target);
+                updater.Invoke(target);
 
                 return connection.Update(target);
             }
