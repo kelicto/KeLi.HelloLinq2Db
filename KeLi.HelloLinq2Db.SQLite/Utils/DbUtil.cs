@@ -27,9 +27,9 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
                 var target = finder.Invoke(connection);
 
                 if (target is null)
-                    return 0;
+                    return connection.Insert(entity);
 
-                return connection.Insert(entity);
+                return 0;
             }
         }
 
