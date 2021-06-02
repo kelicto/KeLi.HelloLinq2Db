@@ -12,7 +12,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
 {
     public class DbUtil
     {
-        public static int Insert<T>(T entity) where T : class
+        public static int Insert<T>(T entity, Func<MyDatabaseDataConnection, T> finder = null) where T : class
         {
             if (entity is null)
                 throw new ArgumentNullException(nameof(entity));
@@ -20,19 +20,29 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             var options = GetOptions();
 
             using (var connection = new MyDatabaseDataConnection(options))
+            {
+                if(finder is null)
+                    return connection.Insert(entity);
+
+                var target = finder.Invoke(connection);
+
+                if (target is null)
+                    return 0;
+
                 return connection.Insert(entity);
+            }
         }
 
-        public static int Delete<T>(Func<MyDatabaseDataConnection, T> func) where T : class
+        public static int Delete<T>(Func<MyDatabaseDataConnection, T> finder) where T : class
         {
-            if (func is null)
-                throw new ArgumentNullException(nameof(func));
+            if (finder is null)
+                throw new ArgumentNullException(nameof(finder));
 
             var options = GetOptions();
 
             using (var connection = new MyDatabaseDataConnection(options))
             {
-                var target = func.Invoke(connection);
+                var target = finder.Invoke(connection);
 
                 if (target is null)
                     return 0;
@@ -41,11 +51,8 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             }
         }
 
-        public static int Update<T>(Func<MyDatabaseDataConnection, T> func, Action<T> action) where T : class
+        public static int Update<T>(Action<T> action, Func<MyDatabaseDataConnection, T> finder) where T : class
         {
-            if (func is null)
-                throw new ArgumentNullException(nameof(func));
-
             if (action is null)
                 throw new ArgumentNullException(nameof(action));
 
@@ -53,7 +60,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
 
             using (var connection = new MyDatabaseDataConnection(options))
             {
-                var target = func.Invoke(connection);
+                var target = finder.Invoke(connection);
 
                 if (target is null)
                     return 0;
@@ -64,26 +71,26 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             }
         }
 
-        public static T Query<T>(Func<MyDatabaseDataConnection, T> func) where T : class
+        public static T Query<T>(Func<MyDatabaseDataConnection, T> finder) where T : class
         {
-            if (func is null)
-                throw new ArgumentNullException(nameof(func));
+            if (finder is null)
+                throw new ArgumentNullException(nameof(finder));
 
             var options = GetOptions();
 
             using (var connection = new MyDatabaseDataConnection(options))
-                return func.Invoke(connection);
+                return finder.Invoke(connection);
         }
 
-        public static List<T> QueryList<T>(Func<MyDatabaseDataConnection, List<T>> func) where  T : class 
+        public static List<T> QueryList<T>(Func<MyDatabaseDataConnection, List<T>> finder) where  T : class 
         {
-            if (func is null)
-                throw new ArgumentNullException(nameof(func));
+            if (finder is null)
+                throw new ArgumentNullException(nameof(finder));
 
             var options = GetOptions();
 
             using (var connection = new MyDatabaseDataConnection(options))
-                return func.Invoke(connection);
+                return finder.Invoke(connection);
         }
 
         private static LinqToDbConnectionOptions GetOptions()

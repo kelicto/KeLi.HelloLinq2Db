@@ -39,7 +39,7 @@ namespace KeLi.HelloLinq2Db.SQLite
 
             // Update data.
             {
-                DbUtil.Update(q => q.Students.FirstOrDefault(f => f.Name.Contains("Jack")), u => u.Name = "Alice");
+                DbUtil.Update(s => s.Name = "Alice", q => q.Students.FirstOrDefault(f => f.Name.Contains("Jack")));
 
                 Console.WriteLine("After Updated data:");
 
