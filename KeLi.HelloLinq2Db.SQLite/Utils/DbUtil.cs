@@ -12,7 +12,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
 {
     public class DbUtil
     {
-        public static int Write<T>(T entity, Action<T> updater, Func<MyDatabaseDataConnection, T> finder) where T : class
+        public static int InsertOrUpdate<T>(T entity, Action<T> updater, Func<MyDatabaseDataConnection, T> finder) where T : class
         {
             if (entity is null)
                 throw new ArgumentNullException(nameof(entity));
