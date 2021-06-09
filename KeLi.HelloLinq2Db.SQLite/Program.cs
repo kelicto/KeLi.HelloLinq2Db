@@ -11,15 +11,17 @@ namespace KeLi.HelloLinq2Db.SQLite
     {
         private static void Main()
         {
+            var helper = new DbHelper();
+
             // Add data.
             {
-                DbUtil.Insert(new Student { Name = "Tom" });
-                DbUtil.Insert(new Student { Name = "Jack" });
-                DbUtil.Insert(new Student { Name = "Tony" });
+                helper.Insert(new Student { Name = "Tom" });
+                helper.Insert(new Student { Name = "Jack" });
+                helper.Insert(new Student { Name = "Tony" });
 
                 Console.WriteLine("After Added data:");
 
-                foreach (var item in DbUtil.QueryList(q => q.Students.ToList()))
+                foreach (var item in helper.QueryList(q => q.Students.ToList()))
                     Console.WriteLine(item.Name);
             }
 
@@ -27,11 +29,11 @@ namespace KeLi.HelloLinq2Db.SQLite
 
             // Delete data.
             {
-                DbUtil.Delete(q => q.Students.FirstOrDefault(f => f.Name.Contains("Tom")));
+                helper.Delete(q => q.Students.FirstOrDefault(f => f.Name.Contains("Tom")));
 
                 Console.WriteLine("After Deleted data:");
 
-                foreach (var item in DbUtil.QueryList(q => q.Students.ToList()))
+                foreach (var item in helper.QueryList(q => q.Students.ToList()))
                     Console.WriteLine(item.Name);
             }
 
@@ -39,11 +41,11 @@ namespace KeLi.HelloLinq2Db.SQLite
 
             // Update data.
             {
-                DbUtil.Update(s => s.Name = "Alice", q => q.Students.FirstOrDefault(f => f.Name.Contains("Jack")));
+                helper.Update(s => s.Name = "Alice", q => q.Students.FirstOrDefault(f => f.Name.Contains("Jack")));
 
                 Console.WriteLine("After Updated data:");
 
-                foreach (var item in DbUtil.QueryList(q => q.Students.ToList()))
+                foreach (var item in helper.QueryList(q => q.Students.ToList()))
                     Console.WriteLine(item.Name);
             }
 
@@ -51,7 +53,7 @@ namespace KeLi.HelloLinq2Db.SQLite
 
             // Query data.
             {
-                var students = DbUtil.QueryList(q => q.Students.Where(w => w.Name.Contains("T")).ToList());
+                var students = helper.QueryList(q => q.Students.Where(w => w.Name.Contains("T")).ToList());
 
                 Console.WriteLine("Query data:");
 
