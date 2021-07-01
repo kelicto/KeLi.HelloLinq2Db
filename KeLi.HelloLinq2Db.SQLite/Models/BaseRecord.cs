@@ -1,4 +1,4 @@
-﻿namespace KeLi.HelloLinq2Db.SQLite.DataModels
+﻿namespace KeLi.HelloLinq2Db.SQLite.Models
 {
     public abstract class BaseRecord
     {

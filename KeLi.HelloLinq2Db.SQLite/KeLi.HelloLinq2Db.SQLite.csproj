@@ -52,11 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModels\BaseRecord.cs" />
+    <Compile Include="Models\BaseRecord.cs" />
     <Compile Include="Utils\DbHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataModels\MyDatabase1.generated.cs">
+    <Compile Include="Models\MyDatabase1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MyDatabase.tt</DependentUpon>
@@ -90,7 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LinqToDB.Templates\CopyMe.SQLite.tt.txt" />
-    <Content Include="DataModels\MyDatabase.tt">
+    <Content Include="Models\MyDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MyDatabase1.generated.cs</LastGenOutput>
     </Content>
