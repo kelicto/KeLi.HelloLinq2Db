@@ -19,7 +19,7 @@ namespace Models
 	/// <summary>
 	/// Database       : MyDatabase
 	/// Data Source    : MyDatabase
-	/// Server Version : 3.32.1
+	/// Server Version : 3.24.0
 	/// </summary>
 	public partial class MyDatabaseDB : LinqToDB.Data.DataConnection
 	{
