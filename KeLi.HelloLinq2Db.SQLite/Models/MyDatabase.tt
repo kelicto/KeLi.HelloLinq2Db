@@ -17,14 +17,16 @@
 		3. Add connection string to the web/app.config file:
 
 			<connectionStrings>
-				<add name="MyDatabase" connectionString="Data Source=C:\Data\MyDatabase.sqlite" providerName="SQLite" />
+				<add name="MyDatabase" connectionString="Data Source=Databases\MyDatabase.db" providerName="SQLite" />
 			</connectionStrings>
 
 		4. To access your database use the following code:
 
 			using (var db = new MyDatabaseDB())
 			{
-				var q = from c in db.Customers select c;
+				var q =
+					from c in db.Customers
+					select c;
 
 				foreach (var c in q)
 					Console.WriteLine(c.ContactName);
@@ -38,12 +40,12 @@
 		Custom tool must be set to TextTemplatingFileGenerator, not TextTemplatingFilePreprocessor or any other value.
 	*/
 
-	NamespaceName = "DataModels";
+	NamespaceName = "Models";
 
 	// to configure GetSchemaOptions properties, add them here, before load metadata call
 
-	LoadSQLiteMetadata(@"C:\Data", "MyDatabase.db");
-	// LoadSQLiteMetadata(string connectionString);
+	LoadSQLiteMetadata(@"C:\Users\KeLi\source\repos\KeLi.HelloLinq2Db\KeLi.HelloLinq2Db.SQLite\Databases", "MyDatabase.db");
+    //	LoadSQLiteMetadata(string connectionString);
 
 	// to adjust loaded database model before generation, add your code here, after load metadata, but before GenerateModel() call
 

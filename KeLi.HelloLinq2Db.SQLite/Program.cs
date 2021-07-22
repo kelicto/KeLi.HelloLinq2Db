@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using DataModels;
-
 using KeLi.HelloLinq2Db.SQLite.Utils;
+
+using Models;
 
 namespace KeLi.HelloLinq2Db.SQLite
 {

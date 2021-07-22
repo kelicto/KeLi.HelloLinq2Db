@@ -8,12 +8,13 @@
 #pragma warning disable 1591
 
 using System;
+using System.Linq;
 
 using LinqToDB;
 using LinqToDB.Configuration;
 using LinqToDB.Mapping;
 
-namespace DataModels
+namespace Models
 {
 	/// <summary>
 	/// Database       : MyDatabase
@@ -22,6 +23,8 @@ namespace DataModels
 	/// </summary>
 	public partial class MyDatabaseDB : LinqToDB.Data.DataConnection
 	{
+		public ITable<Student> Students { get { return this.GetTable<Student>(); } }
+
 		public MyDatabaseDB()
 		{
 			InitDataContext();
@@ -44,6 +47,25 @@ namespace DataModels
 
 		partial void InitDataContext  ();
 		partial void InitMappingSchema();
+	}
+
+	[Table("Student")]
+	public partial class Student
+	{
+		[PrimaryKey, Identity   ] public long   Id      { get; set; } // integer
+		[Column,     NotNull    ] public string Name    { get; set; } // nvarchar(50)
+		[Column,        Nullable] public string Email   { get; set; } // nvarchar(50)
+		[Column,        Nullable] public string Address { get; set; } // nvarchar(50)
+		[Column,        Nullable] public string Remark  { get; set; } // nvarchar(50)
+	}
+
+	public static partial class TableExtensions
+	{
+		public static Student Find(this ITable<Student> table, long Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
 	}
 }
 

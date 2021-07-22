@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using DataModels;
-
 using KeLi.HelloLinq2Db.SQLite.Properties;
 
 using LinqToDB;
 using LinqToDB.Configuration;
 
+using Models;
+
 namespace KeLi.HelloLinq2Db.SQLite.Utils
 {
     public class DbHelper
     {
-        public int InsertOrUpdate<T>(T entity, Action<T> updater, Func<MyDatabaseDataConnection, T> finder) where T : class
+        public int InsertOrUpdate<T>(T entity, Action<T> updater, Func<MyDatabaseDB, T> finder) where T : class
         {
             if (entity is null)
                 throw new ArgumentNullException(nameof(entity));
@@ -25,7 +25,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
 
             var options = GetOptions();
 
-            using (var connection = new MyDatabaseDataConnection(options))
+            using (var connection = new MyDatabaseDB(options))
             {
                 var target = finder.Invoke(connection);
 
@@ -38,14 +38,14 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             }
         }
 
-        public int Insert<T>(T entity, Func<MyDatabaseDataConnection, T> finder = null) where T : class
+        public int Insert<T>(T entity, Func<MyDatabaseDB, T> finder = null) where T : class
         {
             if (entity is null)
                 throw new ArgumentNullException(nameof(entity));
 
             var options = GetOptions();
 
-            using (var connection = new MyDatabaseDataConnection(options))
+            using (var connection = new MyDatabaseDB(options))
             {
                 if (finder is null)
                     return connection.Insert(entity);
@@ -59,14 +59,14 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             }
         }
 
-        public int Delete<T>(Func<MyDatabaseDataConnection, T> finder) where T : class
+        public int Delete<T>(Func<MyDatabaseDB, T> finder) where T : class
         {
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
             var options = GetOptions();
 
-            using (var connection = new MyDatabaseDataConnection(options))
+            using (var connection = new MyDatabaseDB(options))
             {
                 var target = finder.Invoke(connection);
 
@@ -77,7 +77,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             }
         }
 
-        public int Update<T>(Action<T> updater, Func<MyDatabaseDataConnection, T> finder) where T : class
+        public int Update<T>(Action<T> updater, Func<MyDatabaseDB, T> finder) where T : class
         {
             if (updater is null)
                 throw new ArgumentNullException(nameof(updater));
@@ -87,7 +87,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
 
             var options = GetOptions();
 
-            using (var connection = new MyDatabaseDataConnection(options))
+            using (var connection = new MyDatabaseDB(options))
             {
                 var target = finder.Invoke(connection);
 
@@ -100,25 +100,25 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             }
         }
 
-        public T Query<T>(Func<MyDatabaseDataConnection, T> finder) where T : class
+        public T Query<T>(Func<MyDatabaseDB, T> finder) where T : class
         {
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
             var options = GetOptions();
 
-            using (var connection = new MyDatabaseDataConnection(options))
+            using (var connection = new MyDatabaseDB(options))
                 return finder.Invoke(connection);
         }
 
-        public List<T> QueryList<T>(Func<MyDatabaseDataConnection, List<T>> finder) where T : class
+        public List<T> QueryList<T>(Func<MyDatabaseDB, List<T>> finder) where T : class
         {
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
             var options = GetOptions();
 
-            using (var connection = new MyDatabaseDataConnection(options))
+            using (var connection = new MyDatabaseDB(options))
                 return finder.Invoke(connection);
         }
 
