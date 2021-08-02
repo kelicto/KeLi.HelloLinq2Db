@@ -61,20 +61,11 @@ namespace KeLi.HelloLinq2Db.SQLite.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Source=C:\Data\MyDatabase.db.
+        ///   Looks up a localized string similar to MyDatabase.
         /// </summary>
-        internal static string ConnectionString {
+        internal static string Key_MyDatabase {
             get {
-                return ResourceManager.GetString("ConnectionString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SQLite.
-        /// </summary>
-        internal static string ProviderName {
-            get {
-                return ResourceManager.GetString("ProviderName", resourceCulture);
+                return ResourceManager.GetString("Key_MyDatabase", resourceCulture);
             }
         }
     }

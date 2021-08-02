@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 using KeLi.HelloLinq2Db.SQLite.Properties;
 
@@ -12,6 +13,18 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
 {
     public class DbHelper
     {
+        private readonly LinqToDbConnectionOptions _options;
+
+        public DbHelper()
+        {
+            var connectionSetting = ConfigurationManager.ConnectionStrings[Resources.Key_MyDatabase];
+            var builder = new LinqToDbConnectionOptionsBuilder();
+
+            builder.UseConnectionString(connectionSetting.ProviderName, connectionSetting.ConnectionString);
+
+            _options = new LinqToDbConnectionOptions(builder);
+        }
+
         public int InsertOrUpdate<T>(T entity, Action<T> updater, Func<MyDatabaseDB, T> finder) where T : class
         {
             if (entity is null)
@@ -23,9 +36,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
-            var options = GetOptions();
-
-            using (var connection = new MyDatabaseDB(options))
+            using (var connection = new MyDatabaseDB(_options))
             {
                 var target = finder.Invoke(connection);
 
@@ -42,10 +53,8 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
         {
             if (entity is null)
                 throw new ArgumentNullException(nameof(entity));
-
-            var options = GetOptions();
-
-            using (var connection = new MyDatabaseDB(options))
+       
+            using (var connection = new MyDatabaseDB(_options))
             {
                 if (finder is null)
                     return connection.Insert(entity);
@@ -64,9 +73,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
-            var options = GetOptions();
-
-            using (var connection = new MyDatabaseDB(options))
+            using (var connection = new MyDatabaseDB(_options))
             {
                 var target = finder.Invoke(connection);
 
@@ -85,9 +92,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
-            var options = GetOptions();
-
-            using (var connection = new MyDatabaseDB(options))
+            using (var connection = new MyDatabaseDB(_options))
             {
                 var target = finder.Invoke(connection);
 
@@ -105,9 +110,7 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
-            var options = GetOptions();
-
-            using (var connection = new MyDatabaseDB(options))
+            using (var connection = new MyDatabaseDB(_options))
                 return finder.Invoke(connection);
         }
 
@@ -116,19 +119,8 @@ namespace KeLi.HelloLinq2Db.SQLite.Utils
             if (finder is null)
                 throw new ArgumentNullException(nameof(finder));
 
-            var options = GetOptions();
-
-            using (var connection = new MyDatabaseDB(options))
+            using (var connection = new MyDatabaseDB(_options))
                 return finder.Invoke(connection);
-        }
-
-        private LinqToDbConnectionOptions GetOptions()
-        {
-            var builder = new LinqToDbConnectionOptionsBuilder();
-
-            builder.UseConnectionString(Resources.ProviderName, Resources.ConnectionString);
-
-            return new LinqToDbConnectionOptions(builder);
         }
     }
 }
